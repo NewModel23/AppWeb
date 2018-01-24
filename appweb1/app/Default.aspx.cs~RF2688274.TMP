@@ -1,0 +1,250 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.OleDb;
+using Microsoft.VisualBasic;
+
+
+namespace appweb1.app
+{
+    
+    public partial class Default : System.Web.UI.Page
+    {
+        OleDbConnection con;//Representa una conexión abierta a un origen de datos
+        //String stringConexion = @"Provider=SQLNCLI11;Server=ATKL106;Database=master;Trusted_Connection=yes;";
+        
+        String stringConexion = "Provider = Microsoft.ACE.OLEDB.12.0;Data Source =C:\\Users\\p.rguerrero\\Documents\\BaseCodigos.mdb;Persist Security Info=False;";
+        //string pieza_selected = "10030007011";
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+            String pieza_procesar = Request.QueryString["pieza"];
+
+
+            DropDownList2.Visible = false;
+            Fallo_lbl.Visible = false;
+            DropDownList3.Visible = false;
+            Modo_fallo_lbl.Visible = false;
+            DropDownList4.Visible = false;
+            Causa_lbl.Visible = false;
+            ambiente_lbl.Visible = false;
+
+            RadioButtonList1.Visible = false;
+
+            Button1.Visible = false;
+
+            try
+            {
+                
+                con = new OleDbConnection(@stringConexion);
+                con.Open();//se abre una conexion
+
+
+
+                Label1.Text = "";
+                // Put all data into de ComboBox
+                // Cargar las causas
+                OleDbCommand cmd_3 = new OleDbCommand();
+                cmd_3.Connection = con;
+
+                cmd_3.CommandText = "Select Distinct Descripcion from Piezas where Pieza='" + pieza_procesar + "';";
+                cmd_3.ExecuteNonQuery();
+
+                OleDbDataReader reader_3 = cmd_3.ExecuteReader();
+                //DropDownList4.Items.Clear();
+                while (reader_3.Read())
+                {
+                    ListItem listItem = new ListItem();
+
+                    item_desc.Text = reader_3["Descripcion"].ToString();
+
+                    Item_nbr.Text = pieza_procesar;
+                }
+
+                ambiente_lbl.Visible = true;
+                RadioButtonList1.Visible = true;
+
+
+                
+            }
+            catch (System.Exception ex)
+            {
+                Label1.Text = ex.Message; ;
+            }
+
+            
+        }
+
+        protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e )
+        {
+            // Hace Switch para mostrar en el combobox correspondiente los fallos segun la seleccion del usuario
+            //string selectedValue = RadioButtonList1.SelectedValue;
+            DropDownList2.Visible = true;
+            Fallo_lbl.Visible = true;
+            DropDownList3.Visible = true;
+            Modo_fallo_lbl.Visible = true;
+            DropDownList4.Visible = true;
+            Causa_lbl.Visible = true;
+            ambiente_lbl.Visible = true;
+            RadioButtonList1.Visible = true;
+
+
+            Button1.Visible = true;
+
+            
+
+
+            //  Cargar los tipos de falla
+            OleDbCommand cmd_1 = new OleDbCommand();
+            cmd_1.Connection = con;
+
+
+            //if (RadioButtonList1.Equals("1")){ 
+            cmd_1.CommandText = "Select Distinct Tipo_falla from Fallos_Mantenimiento";
+            //}
+
+            cmd_1.ExecuteNonQuery();
+
+            OleDbDataReader reader_1 = cmd_1.ExecuteReader();
+            DropDownList2.Items.Clear();
+
+            DropDownList2.Items.Add("Seleccione una opción");
+
+            while (reader_1.Read())
+            {
+                ListItem listItem = new ListItem();
+
+                listItem.Text = reader_1["Tipo_falla"].ToString();
+                DropDownList2.Items.Add(listItem);
+            }
+
+            
+            //Aquí iban los tipos de falla restantes
+
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            //con.Open();
+            OleDbCommand commando = new OleDbCommand();
+            commando.Connection = con;
+            
+            commando.CommandText = "Insert into Fallos_reportados values(#" + DateTime.Now + "#," + hora_select.SelectedValue + ",#" + DateTime.Now + "#,'" + Item_nbr.Text  + "','" + item_desc.Text + "','" + RadioButtonList1.SelectedValue + "','" + DropDownList2.SelectedValue + "','" + DropDownList3.SelectedValue.ToString() + "','" + DropDownList4.SelectedValue.ToString() + "','No hay otros');";
+            commando.ExecuteNonQuery();
+
+            commando.CommandText = "Update Produccion Set ST = 'Y' where PARTE = '" + Item_nbr.Text + "';";
+            commando.ExecuteNonQuery();
+
+
+            con.Close();
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert('Gracias por tu información');</script>");
+
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "myCloseScript", "window.close()", true);
+
+            RadioButtonList1.ClearSelection();
+            
+            DropDownList2.ClearSelection();
+            DropDownList3.ClearSelection();
+            item_desc.Text = "";
+            Item_nbr.Text = "";
+
+
+
+
+
+
+        }
+
+       
+
+        protected void DropDownList2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            //Este es el Modo_falla
+            //Cargar los Modos de falla
+            OleDbCommand cmd_2 = new OleDbCommand();
+            cmd_2.Connection = con;
+
+            cmd_2.CommandText = "Select Distinct Modo_falla from Fallos_Mantenimiento where Tipo_falla ='" + DropDownList2.SelectedValue + "';";
+            cmd_2.ExecuteNonQuery();
+
+            OleDbDataReader reader_2 = cmd_2.ExecuteReader();
+            DropDownList3.Items.Clear();
+
+            DropDownList3.Items.Add("Seleccione una opción");
+
+            while (reader_2.Read())
+            {
+                ListItem listItem = new ListItem();
+
+                listItem.Text = reader_2["Modo_falla"].ToString();
+                DropDownList3.Items.Add(listItem);
+            }
+
+            DropDownList2.Visible = true;
+            Fallo_lbl.Visible = true;
+            DropDownList3.Visible = true;
+            Modo_fallo_lbl.Visible = true;
+            DropDownList4.Visible = true;
+            Causa_lbl.Visible = true;
+            ambiente_lbl.Visible = true;
+            RadioButtonList1.Visible = true;
+            
+
+
+            Button1.Visible = true;
+
+
+        }
+
+        protected void DropDownList3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            // Cargar las causas
+            OleDbCommand cmd_3 = new OleDbCommand();
+            cmd_3.Connection = con;
+
+            cmd_3.CommandText = "Select Distinct Causa from Fallos_Mantenimiento where Modo_Falla ='" + DropDownList3.SelectedValue + "';";
+            cmd_3.ExecuteNonQuery();
+
+            OleDbDataReader reader_3 = cmd_3.ExecuteReader();
+            DropDownList4.Items.Clear();
+
+            DropDownList4.Items.Add("Seleccione una opción");
+
+            while (reader_3.Read())
+            {
+                ListItem listItem = new ListItem();
+
+                listItem.Text = reader_3["Causa"].ToString();
+                DropDownList4.Items.Add(listItem);
+            }
+
+            DropDownList2.Visible = true;
+            Fallo_lbl.Visible = true;
+            DropDownList3.Visible = true;
+            Modo_fallo_lbl.Visible = true;
+            DropDownList4.Visible = true;
+            Causa_lbl.Visible = true;
+            ambiente_lbl.Visible = true;
+            RadioButtonList1.Visible = true;
+
+
+            Button1.Visible = true;
+
+
+
+
+        }
+
+        protected void DropDownList4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            
+        }
+    }
+}

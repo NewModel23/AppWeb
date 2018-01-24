@@ -1,0 +1,25 @@
+USE [TIEMPOS_MUERTOS]
+GO
+
+/****** Object:  Table [MAGNA\p.rguerrero].[PIEZAS]    Script Date: 18/01/2018 12:06:42 p.m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[PIEZAS](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[PIEZA] [numeric](15, 0) NULL,
+	[DESCRIPCION] [varchar](50) NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+

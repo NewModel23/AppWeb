@@ -1,0 +1,30 @@
+USE [TIEMPOS_MUERTOS]
+GO
+
+/****** Object:  Table [dbo].[PRODUCCION]    Script Date: 18/01/2018 12:03:40 p.m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[PRODUCCION](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[PARTE] [numeric](15, 0) NULL,
+	[DESCRIPCION] [varchar](100) NULL,
+	[FECHA] [datetime] NULL,
+	[TURNO] [int] NULL,
+	[HORA] [int] NULL,
+	[MINUTOS] [int] NULL,
+	[ST] [varchar](1) NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
