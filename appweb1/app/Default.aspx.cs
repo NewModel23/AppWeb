@@ -413,7 +413,6 @@ namespace appweb1.app
 
             Dropdown_Mantto_Modo_1.Items.Clear();
 
-            Dropdown_Mantto_Modo_1.Items.Add("Seleccione una opción");
             Dropdown_Mantto_Modo_1.Items.Add("Seleccione el modo");
             
 

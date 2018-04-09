@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-appweb1-20171215070719.mdf;Initial Catalog=aspnet-appweb1-20171215070719;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\MR2GUER\\Documents\\Visual\ Studio\ 2015\\Projects\\appweb1\\appweb1\\appweb1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="ConnectionString-Web.config Connection String" description="ConnectionString Connection String used in web.config by the application to access the database." defaultValue="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\p.rguerrero\Documents\Codigos.accdb" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\MR2GUER\\Documents\\Visual\ Studio\ 2015\\Projects\\appweb1\\appweb1\\appweb1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ConnectionString']/@connectionString" />
+  </parameter>
+  <parameter name="Tipos_falla_cnn-Web.config Connection String" description="Tipos_falla_cnn Connection String used in web.config by the application to access the database." defaultValue="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\p.rguerrero\Documents\Codigos.accdb" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\MR2GUER\\Documents\\Visual\ Studio\ 2015\\Projects\\appweb1\\appweb1\\appweb1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Tipos_falla_cnn']/@connectionString" />
+  </parameter>
+</parameters>

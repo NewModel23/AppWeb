@@ -34,7 +34,7 @@ namespace appweb1
 
                 //DBAdapter.SelectCommand = new OleDbCommand("Select PARTE,ITEM_DESC,FECHA, TURNO, SUM(MINUTOS) AS MINUTOS from Produccion WHERE ST IS NULL GROUP BY PARTE,ITEM_DESC,FECHA, TURNO  ORDER BY SUM(MINUTOS) DESC;", con);
 
-                DBAdapter.SelectCommand = new SqlCommand("Select PARTE,DESCRIPCION,CONVERT(varchar,FECHA,101) AS FECHA, SUM(MINUTOS) AS MINUTOS from Produccion WHERE ST='' GROUP BY PARTE,DESCRIPCION,FECHA  ORDER BY SUM(MINUTOS) DESC", con);
+                DBAdapter.SelectCommand = new SqlCommand("Select PARTE,DESCRIPCION, SUM(MINUTOS) AS MINUTOS from Produccion WHERE ST='' GROUP BY PARTE,DESCRIPCION,FECHA  ORDER BY SUM(MINUTOS) DESC", con);
 
 
                 //DBAdapter.SelectCommand = new SqlCommand("Select * from Produccion", con);
@@ -93,12 +93,11 @@ namespace appweb1
                         //}
                         //else
                         //{
-                            html.Append("<td style='padding-left: 5px; padding-bottom:3px; font-size:22px;' width='50%'><a href='/app/Default.aspx?pieza=" + row["Parte"] + "', target='_self' ,onclick='window.open('/app/Default.aspx?pieza=" + row["Parte"] + "';window.close(),height=750, width=1024,status= no,resizable= no, scrollbars=yes,toolbar=no,location=no,menubar=no'); return false;>" + row[column.ColumnName] + "</a></td>");
+                            html.Append("<td style='padding-left: 5px; padding-bottom:3px; font-size:22px;' width='50%'><a href='App/Default.aspx?pieza=" + row["Parte"] + "', target='_self' ,onclick='window.open('/app/Default.aspx?pieza=" + row["Parte"] + "';window.close(),height=750, width=1024,status= no,resizable= no, scrollbars=yes,toolbar=no,location=no,menubar=no'); return false;>" + row[column.ColumnName] + "</a></td>");
                         //}                        
                     }
                     html.Append("</tr>");
                 }
-
                 //Table end.
                 html.Append("</table>");
                 con.Close();
@@ -114,5 +113,9 @@ namespace appweb1
             Page.Response.Redirect("~/NewItem.aspx");
         }
 
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Page.Response.Redirect("~/Reporte.aspx");
+        }
     }
     }
